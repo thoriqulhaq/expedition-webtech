@@ -163,9 +163,6 @@ $app->put('/users/{user_id}', function( Request $request, Response $response){
             $db = new db();
             $db = $db->connect();
             $request = $db->prepare( $sql );
-    
-            $request->bindParam(':id', $id);
-        
             $request->execute();
             
             echo '{"msg" : "User Successfully Deleted"}';
@@ -179,16 +176,57 @@ $app->put('/users/{user_id}', function( Request $request, Response $response){
     $app->post('/login', function( Request $request, Response $response){
         $email = $request->getParam("email");
         $password = $request->getParam("password");
-        
-        $sql = "SELECT * FROM user WHERE email = '$email' AND password = '$password'";
+
+        $sql = "SELECT * FROM user WHERE email = '$email'";
     
         try {
             $db = new db();
             $db = $db->connect();
             $request = $db->query( $sql );
+            $data = $request->fetchAll( PDO::FETCH_OBJ );
             $db = null;
             
-            echo 'Successfully Logged In';
+            if (empty($email) || empty($password)) {
+                $result = array(
+                    "status" => false,
+                    "msg" => "Form tidak boleh kosong",
+                    "data" => [],
+                );
+                return $response->withStatus(200)->withJson($result);
+            }
+
+
+            else {
+            $count = count($data);
+
+                if ($count > 0) {
+                $users = $data;
+                foreach ($users as $user) {
+                $passwordHash = $user->password;
+                    if (password_verify($password, $passwordHash)) {
+                        $result = array(
+                            "status" => true,
+                            "msg" => "Login Success",
+                            "data" => $users,
+                        );
+                        return $response->withStatus(200)->withJson($result);
+                    } else {
+                        $result = array(
+                            "status" => false,
+                            "msg" => "Wrong Password"
+                          
+                        );
+                        return $response->withStatus(200)->withJson($result);
+                }
+            }
+        } else {
+            $result = array(
+                "status" => false,
+                "msg" => "Email not registered"
+            );
+            return $response->withStatus(200)->withJson($result);
+        }
+    }
     
         } catch( PDOException $e ) {
             echo '{"error": {"msg": ' . $e->getMessage() . '}';
