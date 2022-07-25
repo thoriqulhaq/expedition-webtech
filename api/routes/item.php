@@ -13,7 +13,7 @@ $app->get('/items', function( Request $request, Response $response){
     $offset = $limit * ($currentPage - 1);
     
     if ($custom_limit) {
-        $limit = $custom_limit;
+        $limit = (int)$custom_limit;
     }
     
     
