@@ -6,6 +6,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 // GET ALL ITEMS
 $app->get('/items', function( Request $request, Response $response){
     $custom_limit = $request->getParam("limit");
+    $custom_page = $request->getParam("page");
+    $custom_status_query = "";
+    
+    if($request->getParam("status") != null){
+        $custom_status_query = 'statusid = "'.$request->getParam("status").'"';
+    }
     
     // Pagination
     $limit = 10;
@@ -16,8 +22,13 @@ $app->get('/items', function( Request $request, Response $response){
         $limit = (int)$custom_limit;
     }
     
+    if ($custom_page) {
+        $currentPage = (int)$custom_page;
+    }
     
-    $sql = "SELECT * FROM ITEM LIMIT $limit OFFSET $offset";
+    $query = ($custom_status_query != "" ? " WHERE $custom_status_query" : "");
+    
+    $sql = "SELECT * FROM ITEM " . $query . " LIMIT $limit OFFSET $offset";
     $sql_count = "SELECT COUNT(*) FROM ITEM";
 
     try {
@@ -148,13 +159,18 @@ $app->get('/items', function( Request $request, Response $response){
         }
         ////////////////////////////////////////////////////////
         
-        echo '{
-            "total_records":' . json_encode(count($data)) . ',
-            "records":' . json_encode($data) . ',
-            "current_page":' . json_encode($currentPage) . ',
-            "total_pages":' . json_encode(ceil($count / $limit)) . ',
-            "limit":' . json_encode($limit) . '
-        }'; 
+        if (0 >= $currentPage ||$currentPage > ceil($count / $limit)) {
+            echo '{"msg" : "Reached the maximum page number"}';
+        } else {
+            echo '{
+                "current_records":' . json_encode(count($data)) . ',
+                "total_records":' . json_encode((int)$count) . ',
+                "records":' . json_encode($data) . ',
+                "current_page":' . json_encode($currentPage) . ',
+                "total_pages":' . json_encode(ceil($count / $limit)) . ',
+                "limit":' . json_encode($limit) . '
+            }'; 
+        }
         
     } catch( PDOException $e ) {
         echo '{"error": {"msg": ' . $e->getMessage() . '}';
