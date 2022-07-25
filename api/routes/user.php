@@ -163,6 +163,8 @@ $app->put('/users/{user_id}', function( Request $request, Response $response){
             $db = new db();
             $db = $db->connect();
             $request = $db->prepare( $sql );
+
+        
             $request->execute();
             
             echo '{"msg" : "User Successfully Deleted"}';
@@ -207,7 +209,7 @@ $app->put('/users/{user_id}', function( Request $request, Response $response){
                         $result = array(
                             "status" => true,
                             "msg" => "Login Success",
-                            "data" => $users,
+                            "data" => $users[0],
                         );
                         return $response->withStatus(200)->withJson($result);
                     } else {
