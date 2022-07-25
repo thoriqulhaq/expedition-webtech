@@ -16,7 +16,6 @@ $app->get('/items', function( Request $request, Response $response){
     // Pagination
     $limit = 10;
     $currentPage = 1;
-    $offset = $limit * ($currentPage - 1);
     
     if ($custom_limit) {
         $limit = (int)$custom_limit;
@@ -25,6 +24,8 @@ $app->get('/items', function( Request $request, Response $response){
     if ($custom_page) {
         $currentPage = (int)$custom_page;
     }
+    
+    $offset = $limit * ($currentPage - 1);
     
     $query = ($custom_status_query != "" ? " WHERE $custom_status_query" : "");
     
