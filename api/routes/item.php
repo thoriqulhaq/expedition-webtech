@@ -5,14 +5,30 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 // GET ALL ITEMS
 $app->get('/items', function( Request $request, Response $response){
-    $sql = "SELECT * FROM ITEM";
+    $custom_limit = $request->getParam("limit");
+    
+    // Pagination
+    $limit = 10;
+    $currentPage = 1;
+    $offset = $limit * ($currentPage - 1);
+    
+    if ($custom_limit) {
+        $limit = $custom_limit;
+    }
+    
+    
+    $sql = "SELECT * FROM ITEM LIMIT $limit OFFSET $offset";
+    $sql_count = "SELECT COUNT(*) FROM ITEM";
 
     try {
         $db = new db();
         $db = $db->connect();
 
-        $response = $db->query( $sql );
-        $data = $response->fetchAll( PDO::FETCH_OBJ );
+        $response_data = $db->query( $sql );
+        $response_count = $db->query( $sql_count );
+        
+        $data = $response_data->fetchAll( PDO::FETCH_OBJ );
+        $count = $response_count->fetchColumn();
         $db = null;
         
         // Modify the data to include the user description //
@@ -134,7 +150,10 @@ $app->get('/items', function( Request $request, Response $response){
         
         echo '{
             "total_records":' . json_encode(count($data)) . ',
-            "records":' . json_encode($data) . '
+            "records":' . json_encode($data) . ',
+            "current_page":' . json_encode($currentPage) . ',
+            "total_pages":' . json_encode(ceil($count / $limit)) . ',
+            "limit":' . json_encode($limit) . '
         }'; 
         
     } catch( PDOException $e ) {
