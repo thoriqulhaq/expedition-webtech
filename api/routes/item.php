@@ -44,6 +44,7 @@ $app->get('/items', function( Request $request, Response $response){
         $db = null;
         
         // Modify the data to include the user description //
+        
         for( $i = 0; $i < count( $data ); $i++ ){
             $user_id = $data[$i]->userid;
             if($user_id != null ) {
@@ -53,33 +54,40 @@ $app->get('/items', function( Request $request, Response $response){
                     $db = new db();
                     $db = $db->connect();
                     
-                    $response = $db->query( $get_user );
-                    $user = $response->fetchAll( PDO::FETCH_OBJ );
+                    $response_db = $db->query( $get_user );
+                    $user = $response_db->fetchAll( PDO::FETCH_OBJ );
                     $db = null;
                     
                     if(count($user) == 1){
-                        $data[$i]->user = [
+                        $data[$i]->user = array(
                             'id' => $user_id,
                             'name' => $user[0]->name,
                             'email' => $user[0]->email,
-                        ];
+                        );
                     } else {
-                        $data[$i]->user = [
+                        $data[$i]->user = array(
                             'id' => $user_id,
                             'name' => 'Unknown',
                             'email' => 'Unknown',
-                        ];
+                        );
                     }
                     
                 } catch( PDOException $e ) {
-                    echo '{"error": {"msg": ' . $e->getMessage() . '}';
+                    $result = array(
+                        "status" => false,
+                        "error" => array(
+                            "msg" => $e->getMessage()
+                        )
+                    );
+            
+                    return $response->withStatus(200)->withJson($result);
                 }
             } else {
-                $data[$i]->user = [
+                $data[$i]->user = array(
                     'id' => $user_id,
                     'name' => 'Unknown',
                     'email' => 'Unknown',
-                ];
+                );
             }
         }
         ////////////////////////////////////////////////////////
@@ -94,30 +102,37 @@ $app->get('/items', function( Request $request, Response $response){
                     $db = new db();
                     $db = $db->connect();
                     
-                    $response = $db->query( $get_status );
-                    $status = $response->fetchAll( PDO::FETCH_OBJ );
+                    $response_db = $db->query( $get_status );
+                    $status = $response_db->fetchAll( PDO::FETCH_OBJ );
                     $db = null;
                     
                     if(count($status) == 1){
-                        $data[$i]->status = [
+                        $data[$i]->status = array(
                             'id' => $status_id,
                             'name' => $status[0]->status
-                        ];
+                        );
                     } else {
-                        $data[$i]->status = [
+                        $data[$i]->status = array(
                             'id' => $status_id,
                             'name' => 'Undefined'
-                        ];
+                        );
                     }
                     
                 } catch( PDOException $e ) {
-                    echo '{"error": {"msg": ' . $e->getMessage() . '}';
+                    $result = array(
+                        "status" => false,
+                        "error" => array(
+                            "msg" => $e->getMessage()
+                        )
+                    );
+            
+                    return $response->withStatus(200)->withJson($result);
                 }
             } else {
-                $data[$i]->status = [
+                $data[$i]->status = array(
                     'id' => $status_id,
                     'name' => 'Undefined'
-                ];
+                );
             }
         }
         ////////////////////////////////////////////////////////
@@ -132,53 +147,77 @@ $app->get('/items', function( Request $request, Response $response){
                     $db = new db();
                     $db = $db->connect();
                     
-                    $response = $db->query( $get_courier );
-                    $courier = $response->fetchAll( PDO::FETCH_OBJ );
+                    $response_db = $db->query( $get_courier );
+                    $courier = $response_db->fetchAll( PDO::FETCH_OBJ );
                     $db = null;
                     
                     if(count($courier) == 1){
-                        $data[$i]->courier = [
+                        $data[$i]->courier = array(
                             'id' => $courier_id,
                             'name' => $courier[0]->name
-                        ];
+                        );
                     } else {
-                        $data[$i]->courier = [
+                        $data[$i]->courier = array(
                             'id' => $courier_id,
                             'name' => 'Unknown'
-                        ];
+                        );
                     }
                     
                 } catch( PDOException $e ) {
-                    echo '{"error": {"msg": ' . $e->getMessage() . '}';
+                    $result = array(
+                        "status" => false,
+                        "error" => array(
+                            "msg" => $e->getMessage()
+                        )
+                    );
+            
+                    return $response->withStatus(200)->withJson($result);
                 }
             } else {
-                $data[$i]->courier = [
+                $data[$i]->courier = array(
                     'id' => $courier_id,
                     'name' => 'Unknown'
-                ];
+                );
             }
         }
         ////////////////////////////////////////////////////////
         
-        if (0 >= $currentPage ||$currentPage > ceil($count / $limit)) {
-            echo '{"msg" : "Reached the maximum page number"}';
+        if (0 >= $currentPage || $currentPage > ceil($count / $limit)) {
+            
+            $result = array(
+                "status" => false,
+                "msg" => "Reached the maximum page number",
+            );
+
+            return $response->withStatus(200)->withJson($result);
         } else {
-            echo '{
-                "current_records":' . json_encode(count($data)) . ',
-                "total_records":' . json_encode((int)$count) . ',
-                "records":' . json_encode($data) . ',
-                "current_page":' . json_encode($currentPage) . ',
-                "total_pages":' . json_encode(ceil($count / $limit)) . ',
-                "limit":' . json_encode($limit) . '
-            }'; 
+            
+            $result = array(
+                "status" => true,
+                "current_records" => count($data),
+                "total_records" => (int)$count,
+                "records" => $data,
+                "current_page" => $currentPage,
+                "total_pages" => ceil($count / $limit),
+                "limit" => $limit,
+            );
+
+            return $response->withStatus(200)->withJson($result);
         }
-        
     } catch( PDOException $e ) {
-        echo '{"error": {"msg": ' . $e->getMessage() . '}';
+
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
+        );
+
+        return $response->withStatus(200)->withJson($result);
     }
 });
 
-// GET ITEM BY
+// GET ITEM BY ID
 $app->get('/item/{item_id}', function( Request $request, Response $response){
     $id = $request->getAttribute('item_id');
     
@@ -189,8 +228,8 @@ $app->get('/item/{item_id}', function( Request $request, Response $response){
   
      $db = $db->connect();
   
-     $response = $db->query( $sql );
-     $data = $response->fetchAll( PDO::FETCH_OBJ );
+     $response_db = $db->query( $sql );
+     $data = $response_db->fetchAll( PDO::FETCH_OBJ );
      $db = null;
      
         // Modify the data to include the user description //
@@ -202,33 +241,40 @@ $app->get('/item/{item_id}', function( Request $request, Response $response){
                 $db = new db();
                 $db = $db->connect();
                 
-                $response = $db->query( $get_user );
-                $user = $response->fetchAll( PDO::FETCH_OBJ );
+                $response_db = $db->query( $get_user );
+                $user = $response_db->fetchAll( PDO::FETCH_OBJ );
                 $db = null;
                 
                 if(count($user) == 1){
-                    $data[0]->user = [
+                    $data[0]->user = array(
                         'id' => $user_id,
                         'name' => $user[0]->name,
                         'email' => $user[0]->email,
-                    ];
+                    );
                 } else {
-                    $data[0]->user = [
+                    $data[0]->user = array(
                         'id' => $user_id,
                         'name' => 'Unknown',
                         'email' => 'Unknown',
-                    ];
+                    );
                 }
                 
             } catch( PDOException $e ) {
-                echo '{"error": {"msg": ' . $e->getMessage() . '}';
+                $result = array(
+                    "status" => false,
+                    "error" => array(
+                        "msg" => $e->getMessage()
+                    )
+                );
+        
+                return $response->withStatus(200)->withJson($result);
             }
         } else {
-            $data[0]->user = [
+            $data[0]->user = array(
                 'id' => $user_id,
                 'name' => 'Unknown',
                 'email' => 'Unknown',
-            ];
+            );
         }
         ////////////////////////////////////////////////////////
   
@@ -241,30 +287,37 @@ $app->get('/item/{item_id}', function( Request $request, Response $response){
                 $db = new db();
                 $db = $db->connect();
                 
-                $response = $db->query( $get_status );
-                $status = $response->fetchAll( PDO::FETCH_OBJ );
+                $response_db = $db->query( $get_status );
+                $status = $response_db->fetchAll( PDO::FETCH_OBJ );
                 $db = null;
                 
                 if(count($status) == 1){
-                    $data[0]->status = [
+                    $data[0]->status = array(
                         'id' => $status_id,
                         'name' => $status[0]->status
-                    ];
+                    );
                 } else {
-                    $data[0]->status = [
+                    $data[0]->status = array(
                         'id' => $status_id,
                         'name' => 'Undefined'
-                    ];
+                    );
                 }
                 
             } catch( PDOException $e ) {
-                echo '{"error": {"msg": ' . $e->getMessage() . '}';
+                $result = array(
+                    "status" => false,
+                    "error" => array(
+                        "msg" => $e->getMessage()
+                    )
+                );
+        
+                return $response->withStatus(200)->withJson($result);
             }
         } else {
-            $data[0]->status = [
+            $data[0]->status = array(
                 'id' => $status_id,
                 'name' => null
-            ];
+            );
         }
     ////////////////////////////////////////////////////////
     
@@ -277,39 +330,56 @@ $app->get('/item/{item_id}', function( Request $request, Response $response){
                 $db = new db();
                 $db = $db->connect();
                 
-                $response = $db->query( $get_courier );
-                $courier = $response->fetchAll( PDO::FETCH_OBJ );
+                $response_db = $db->query( $get_courier );
+                $courier = $response_db->fetchAll( PDO::FETCH_OBJ );
                 $db = null;
                 
                 if(count($courier) == 1){
-                    $data[0]->courier = [
+                    $data[0]->courier = array(
                         'id' => $courier_id,
                         'name' => $courier[0]->name
-                    ];
+                    );
                 } else {
-                    $data[0]->courier = [
+                    $data[0]->courier = array(
                         'id' => $courier_id,
                         'name' => 'Unknown'
-                    ];
+                    );
                 }
                 
             } catch( PDOException $e ) {
-                echo '{"error": {"msg": ' . $e->getMessage() . '}';
+                $result = array(
+                    "status" => false,
+                    "error" => array(
+                        "msg" => $e->getMessage()
+                    )
+                );
+        
+                return $response->withStatus(200)->withJson($result);
             }
         } else {
-            $data[0]->courier = [
+            $data[0]->courier = array(
                 'id' => $courier_id,
                 'name' => null
-            ];
+            );
         }
     ////////////////////////////////////////////////////////
             
-    echo '{
-        "record":' . json_encode($data[0]) . '
-    }'; 
+        $result = array(
+            "status" => true,
+            "record" => $data[0]
+        );
+  
+     return $response->withStatus(200)->withJson($result);
        
    } catch( PDOException $e ) {
-     echo '{"error": {"msg": ' . $e->getMessage() . '}';
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
+        );
+
+        return $response->withStatus(200)->withJson($result);
    }
   });
   
@@ -354,10 +424,22 @@ $app->get('/item/{item_id}', function( Request $request, Response $response){
     
         $request->execute();
         
-        echo '{"msg" : "Successfully added new item"}';
+        $result = array(
+            "status" => true,
+            "msg" => "Successfully added new item"
+        );
+
+        return $response->withStatus(200)->withJson($result);
   
     } catch( PDOException $e ) {
-        echo '{"error": {"msg": ' . $e->getMessage() . '}';
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
+        );
+
+        return $response->withStatus(200)->withJson($result);
     }
   });
   
@@ -398,9 +480,22 @@ $app->put('/item/{item_id}', function( Request $request, Response $response){
         
         $request->execute();
         
-        echo '{"msg" : "Successfully updated item with id ' . $id . '"}';
+        $result = array(
+            "status" => true,
+            "msg" => "Successfully updated item with id " . $id
+        );
+
+        return $response->withStatus(200)->withJson($result);
+        
     } catch( PDOException $e ) {
-        echo '{"error": {"msg": ' . $e->getMessage() . '}';
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
+        );
+
+        return $response->withStatus(200)->withJson($result);
     }
 });
 
@@ -419,8 +514,21 @@ $app->delete('/item/{item_id}', function( Request $request, Response $response){
         
         $request->execute();
         
-        echo '{"msg" : "Successfully deleted item with id ' . $id . '"}';
+        $result = array(
+            "status" => true,
+            "msg" => "Successfully deleted item with id " . $id
+        );
+
+        return $response->withStatus(200)->withJson($result);
+        
     } catch( PDOException $e ) {
-        echo '{"error": {"msg": ' . $e->getMessage() . '}';
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
+        );
+
+        return $response->withStatus(200)->withJson($result);
     }
 });
