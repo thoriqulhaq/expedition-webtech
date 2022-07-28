@@ -17,12 +17,24 @@ $app->get('/expedition_statuses', function (Request $request, Response $response
         $stmt = $db->query($sql);
         $user = $stmt->fetchAll(PDO::FETCH_OBJ);
         $db = null;
-        echo json_encode($user);
-    } catch (PDOException $e) {
-        $data = array(
-            "status" => "fail"
+        
+        $result = array(
+            "status" => true,
+            "current_records" => count($user),
+            "records" => $user,
         );
-        echo json_encode($data);
+
+        return $response->withStatus(200)->withJson($result);
+        
+    } catch (PDOException $e) {
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
+        );
+
+        return $response->withStatus(200)->withJson($result);
     }
 
 });
@@ -38,12 +50,23 @@ $app->get('/expedition_status/{status_id}', function (Request $request, Response
         $stmt = $db->query($sql);
         $user = $stmt->fetchAll(PDO::FETCH_OBJ);
         $db = null;
-        echo json_encode($user);
-    } catch (PDOException $e) {
-        $data = array(
-            "status" => "fail"
+        
+        $result = array(
+            "status" => true,
+            "record" => $user,
         );
-        echo json_encode($data);
+
+        return $response->withStatus(200)->withJson($result);
+        
+    } catch (PDOException $e) {
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
+        );
+
+        return $response->withStatus(200)->withJson($result);
     }
 
 });
@@ -76,10 +99,14 @@ $app->post('/expedition_status', function (Request $request, Response $response,
         );
         echo json_encode($data);
     } catch (PDOException $e) {
-        $data = array(
-            "status" => "fail"
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
         );
-        echo json_encode($e);
+
+        return $response->withStatus(200)->withJson($result);
     }
 });
 
@@ -113,10 +140,14 @@ $app->put('/expedition_status/{status_id}', function (Request $request, Response
         );
         echo json_encode($data);
     } catch (PDOException $e) {
-        $data = array(
-            "status" => "fail"
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
         );
-        echo json_encode($e);
+
+        return $response->withStatus(200)->withJson($result);
     }
 });
 
@@ -140,10 +171,14 @@ $app->delete('/expedition_status/{status_id}', function (Request $request, Respo
         );
         echo json_encode($data);
     } catch (PDOException $e) {
-        $data = array(
-            "status" => "fail"
+        $result = array(
+            "status" => false,
+            "error" => array(
+                "msg" => $e->getMessage()
+            )
         );
-        echo json_encode($data);
+
+        return $response->withStatus(200)->withJson($result);
     }
 
 });
