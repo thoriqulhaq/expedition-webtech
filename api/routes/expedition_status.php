@@ -5,7 +5,7 @@ use Slim\Factory\AppFactory;
 
 
 
-$app->get('/expedition_note', function (Request $request, Response $response, $args) {
+$app->get('/expedition_statuses', function (Request $request, Response $response, $args) {
     $sql = "SELECT * FROM expedition_status";
 
     try {
@@ -26,7 +26,7 @@ $app->get('/expedition_note', function (Request $request, Response $response, $a
     }
 
 });
-$app->get('/expedition_note/{status_id}', function (Request $request, Response $response, array $args) {
+$app->get('/expedition_status/{status_id}', function (Request $request, Response $response, array $args) {
     $id = $args['status_id'];
     $sql = "SELECT * FROM expedition_status WHERE id = $id";
     try {
@@ -47,7 +47,7 @@ $app->get('/expedition_note/{status_id}', function (Request $request, Response $
     }
 
 });
-$app->post('/expedition_notes', function (Request $request, Response $response, array $args) {
+$app->post('/expedition_status', function (Request $request, Response $response, array $args) {
     
     $id = $_POST["id"];
     $status = $_POST["status"];
@@ -83,7 +83,7 @@ $app->post('/expedition_notes', function (Request $request, Response $response, 
     }
 });
 
-$app->put('/expedition_note/{status_id}', function (Request $request, Response $response, array $args) {
+$app->put('/expedition_status/{status_id}', function (Request $request, Response $response, array $args) {
     // $response->getBody()->write("this is post user....");
     $id = $args["status_id"];
     $data = $request->getParsedBody();
@@ -120,7 +120,7 @@ $app->put('/expedition_note/{status_id}', function (Request $request, Response $
     }
 });
 
-$app->delete('/expedition_note/{status_id}', function (Request $request, Response $response, array $args) {
+$app->delete('/expedition_status/{status_id}', function (Request $request, Response $response, array $args) {
   
     $id = $args['status_id'];
 
