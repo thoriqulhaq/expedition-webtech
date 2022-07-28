@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    var url = 'http://localhost:8888/expedition/api/index.php/items';
+var currentPage = 1;
+var totalPages = 1;
+var dataRequest = {
+        limit : 10,
+        page : currentPage
+    };
+
+    function getData() {
+$.ajax({
+    type:"GET", 
+    url: url, 
+    data: dataRequest,
+    dataType: "json",
+    success: function(data) {
+        var $data = $('#data');
+        var $pagination = $('#pagination');
+        var $counter = 1;
+        totalPages = data.total_pages;
+        
+        $("#current_page").text(`${data.current_page}`);
+        $("#total_pages").text(`${data.total_pages}`);
+        $("#total_records").text(`${data.total_records}`);
+        
+        $data.empty();
+        $pagination.empty();
+        
+        for (i = 1 ; i <= data.total_pages ; i++) {
+            $pagination.append(`<button onclick="changePage(${i})" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium text-gray-500 hover:bg-gray-50"> ${i} </button>`);
+        }
+        
+        data.records.forEach(function(item) {
+            var $tr = $('<tr></tr>');
+            
+            $tr.append(`<td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-500">
+                    <div class="flex items-center">
+                        <div class="">
+                            <div class="text-sm font-medium text-gray-900">
+                                ${item.userid}
+                            </div>
+                        </div>
+                    </div>
+                </div></td>`);
+                
+            $tr.append(`<td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-500">
+                ${item.receiver_name}
+            </div></td>`);
+            
+            
+            
+            $tr.append(`<td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-500">
+                ${item.courier.name? item.courier.name : '-'}
+            </div></td>`);
+            
+            
+            $tr.append(`<td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-500">
+                <button class="rounded-full bg-gray-400 px-5 py-2 text-white">
+                    View
+                </button>
+            </div></td>`);
+            
+
+            $data.append($tr);
+        });
+    }, 
+    error: function(jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.status);
+    }
+    
+})
+}
+var url = 'http://localhost:8888/expedition/api/index.php/expedition_note';
+var currentPage = 1;
+var totalPages = 1;
+var dataRequest = {
+        limit : 10,
+        page : currentPage
+    };
+
+function getData() {
+$.ajax({
+    type:"GET", 
+    url: url, 
+    data: dataRequest,
+    dataType: "json",
+    success: function(data) {
+        var $data = $('#data');
+        var $pagination = $('#pagination');
+        var $counter = 1;
+        totalPages = data.total_pages;
+        
+        $("#current_page").text(`${data.current_page}`);
+        $("#total_pages").text(`${data.total_pages}`);
+        $("#total_records").text(`${data.total_records}`);
+        
+        $data.empty();
+        $pagination.empty();
+        
+        for (i = 1 ; i <= data.total_pages ; i++) {
+            $pagination.append(`<button onclick="changePage(${i})" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium text-gray-500 hover:bg-gray-50"> ${i} </button>`);
+        }
+        
+        data.records.forEach(function(expedition_status) {
+            var $tr = $('<tr></tr>');
+            
+            $tr.append(`<td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-500">
+                    <div class="flex items-center">
+                        <div class="">
+                            <div class="text-sm font-medium text-gray-900">
+                                ${expedition_status.status}
+                            </div>
+                        </div>
+                    </div>
+                </div></td>`);
+                
+            
+            $tr.append(`<td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-500">
+                <button class="rounded-full bg-gray-400 px-5 py-2 text-white">
+                    View
+                </button>
+            </div></td>`);
+            
+
+            $data.append($tr);
+        });
+    }, 
+    error: function(jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.status);
+    }
+    
+})
+}
+</script>
+</html>
