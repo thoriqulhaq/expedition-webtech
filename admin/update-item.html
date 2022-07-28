@@ -151,6 +151,8 @@
     }
     
     var userid = null;
+    var initialStatus = null;
+    var intialCourier = null;
     
     // Get Existing Item Details
     $.ajax({
@@ -169,16 +171,16 @@
             $('#item_desc').val(data.record.item_description);
             $('#item_weight').val(data.record.weight);
             $('#item_price').val(data.record.price);
-            $('#courier_name').val(data.record.courier.name);
+            intialCourier = data.record.courier;
             // $('#courier_contact').text(data.record.courier_contact);
-            $('#status').text(data.record.status.name);
+            initialStatus = data.record.statusid;
         }
     });
     
 
     // Get List of Expedition Status
     $.ajax({
-        url: 'http://localhost:8888/expedition/api/index.php/expedition-statuses',
+        url: 'http://localhost:8888/expedition/api/index.php/expedition_statuses',
         type: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -186,7 +188,7 @@
             var $counter = 1;
             
             data.records.forEach(function(item) {
-                $data.append(`<option>${item.name}</option>`);
+                $data.append(`<option ${initialStatus == item.id ? 'selected' : ''} value="${item.id}">${item.status}</option>`);
             });
         }
     });
@@ -201,7 +203,7 @@
             var $counter = 1;
             
             data.records.forEach(function(item) {
-                $data.append(`<option>${item.name}</option>`);
+                $data.append(`<option ${initialCourier == item.id ? 'selected' : ''} value="${item.id}">${item.name}</option>`);
             });
         }
     });
