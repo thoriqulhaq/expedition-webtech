@@ -40,4 +40,122 @@ left: 55%;
         </table>
     </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+var url = 'http://localhost/expedition/api/index.php/items';
+var currentPage = 1;
+var totalPages = 1;
+
+getData();
+function changePage(page) {
+    currentPage = page;     
+    console.log("pressed" + currentPage);
+    getData();
+};
+
+function previousPage(page) {
+    if (currentPage > 1) {
+        currentPage -= 1;     
+        console.log("pressed" + currentPage);
+        getData();
+    }
+};
+
+function nextPage(page) {
+    if (currentPage < totalPages) {
+        currentPage += 1;     
+        console.log("pressed" + currentPage);
+        getData();
+    }
+};
+
+
+
+function getData() {
+$.ajax({
+    type:"GET", 
+    url: url, 
+    data: {
+        limit : 10,
+        page : currentPage
+    },
+    dataType: "json",
+    success: function(data) {
+        console.log(currentPage);
+        var $data = $('#data');
+        var $pagination = $('#pagination');
+        var $counter = 1;
+        totalPages = data.total_pages;
+        
+        $("#current_page").text(`${data.current_page}`);
+        $("#total_pages").text(`${data.total_pages}`);
+        $("#total_records").text(`${data.total_records}`);
+        
+        $data.empty();
+        $pagination.empty();
+        
+        for (i = 1 ; i <= data.total_pages ; i++) {
+            $pagination.append(`<button onclick="changePage(${i})" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium text-gray-500 hover:bg-gray-50"> ${i} </button>`);
+        }
+        
+        data.records.forEach(function(item) {
+            var $tr = $('<tr></tr>');
+            
+            $tr.append(`<td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-500">
+                    <div class="flex items-center">
+                        <div class="">
+                            <div class="text-sm font-medium text-gray-900">
+                                ${item.userid}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.item_description}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.weight}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.price}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.sender_address}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.receiver_address}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.receiver_name}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.sender_contact}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.receiver_contact}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.statusid}
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                ${item.courierid}
+                            </div>
+                        </div>
+                    </div>
+                </div></td>`);
+                
+            $tr.append(`<td class="px-6 py-4 whitespace-nowrap"><div class="text-sm text-gray-500">
+                ${item.userType}
+            </div></td>`);
+            
+            
+            
+
+            $data.append($tr);
+        });
+    }, 
+    error: function(jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.status);
+    }
+    
+})
+}
+</script>
 </html>
