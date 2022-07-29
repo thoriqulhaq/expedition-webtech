@@ -178,6 +178,7 @@ $app->put('/users/{user_id}', function( Request $request, Response $response){
     $app->post('/login', function( Request $request, Response $response){
         $email = $request->getParam("email");
         $password = $request->getParam("password");
+        
 
         $sql = "SELECT * FROM user WHERE email = '$email'";
     
@@ -191,7 +192,7 @@ $app->put('/users/{user_id}', function( Request $request, Response $response){
             if (empty($email) || empty($password)) {
                 $result = array(
                     "status" => false,
-                    "msg" => "Form tidak boleh kosong",
+                    "msg" => "Form can not be empty",
                     "data" => [],
                 );
                 return $response->withStatus(200)->withJson($result);
