@@ -1,13 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expedition</title>
-</head>
-<body>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .nav {
+            color: #fff;
+            background: whitesmoke;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            /* fixed top */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
 
+        .menus {
+            width: 1600px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            background-color: rgb(202 138 4);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 70px;
+        }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: whitesmoke;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidenav a:hover {
+            color: rgb(161 98 7);
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        @media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-yellow-200">
+    <nav>
+        <div class="nav">
+            <div class="menus">
+                <div><a href="index.html"><img src="img/logo-removebg.png"
+                            style="height: 2cm; width: 6cm; left: 0;"></a></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div>
+                    <span style="font-size:40px; cursor:pointer; color: rgb(161 98 7); right: 0; padding-top: 5px;"
+                        onclick="openNav()">&#9776;</span>
+                </div>
+                <div id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <a href="customer/register.html">Register</a>
+                    <a href="login.html">Login</a>
+                </div>
+                <script>
+                    function openNav() {
+                        document.getElementById("mySidenav").style.width = "250px";
+                    }
+
+                    function closeNav() {
+                        document.getElementById("mySidenav").style.width = "0";
+                    }
+                </script>
+            </div>
+        </div>
+    </nav>
+<!-- End of navigation bar -->
+
+    <section style="display: flex; justify-content: center;  align-items: center; flex-direction: column;">
+        <div style="padding-top: 9cm;">
+            <p class="font-semibold text-gray-600" style="font-size: 40px;"> Welcome to</p>
+        </div>
+        <div>
+            <img src="img/logo-removebg.png">
+        </div>
+        <div>
+            <p class="font-semibold text-gray-600" style="font-size: 20px;">
+                We ready to deliver anywhere and anytime,
+                <a href="login.html" class="text-yellow-600 hover:text-yellow-800"><u>Deliver now with us!</u></a>
+            </p>
+        </div>
+    </section>
 
 </body>
+
 </html>
