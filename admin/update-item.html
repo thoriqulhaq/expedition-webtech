@@ -130,7 +130,7 @@
                   </div>
                 </div>
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                  <button onclick="updateItem()" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Save</button>
+                  <button onclick="updateItem()" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Update</button>
                 </div>
               </div>
           </div>
@@ -149,7 +149,7 @@
     
     var userid = null;
     var initialStatus = null;
-    var intialCourier = null;
+    var initialCourier = null;
     
     // Get Existing Item Details
     $.ajax({
@@ -168,7 +168,7 @@
             $('#item_desc').val(data.record.item_description);
             $('#item_weight').val(data.record.weight);
             $('#item_price').val(data.record.price);
-            intialCourier = data.record.courier;
+            initialCourier = data.record.courierid;
             // $('#courier_contact').text(data.record.courier_contact);
             initialStatus = data.record.statusid;
         }
@@ -182,7 +182,6 @@
         dataType: 'json',
         success: function(data) {
             var $data = $('#status');
-            var $counter = 1;
             
             data.records.forEach(function(item) {
                 $data.append(`<option ${initialStatus == item.id ? 'selected' : ''} value="${item.id}">${item.status}</option>`);
@@ -197,13 +196,16 @@
         dataType: 'json',
         success: function(data) {
             var $data = $('#courier');
-            var $counter = 1;
             
-            data.records.forEach(function(item) {
+            console.log(data[0]);
+            
+            data.forEach(function(item) {
                 $data.append(`<option ${initialCourier == item.id ? 'selected' : ''} value="${item.id}">${item.name}</option>`);
             });
         }
     });
+    
+    console.log($('#status').val(),$('#courier').val())
     
     // Update Item
     function updateItem() {
@@ -221,12 +223,12 @@
                 item_description: $('#item_desc').val(),
                 weight: $('#item_weight').val(),
                 price: $('#item_price').val(),
-                status_id: $('#status').val(),
-                courier_id: $('#courier').val()
+                statusid: $('#status').val(),
+                courierid: $('#courier').val()
             },
             success: function(data) {
-                console.log(data);
-                window.location.href = 'http://localhost:8888/expedition/index.php/item';
+                console.log($('#status').val(), $('#courier').val());
+                window.location.href = 'http://localhost:8888/expedition/admin/manage-item.html';
             }
         });
     }
