@@ -64,14 +64,12 @@ $app->get('/users/{user_id}', function( Request $request, Response $response){
   
    try {
      $db = new db();
-  
      $db = $db->connect();
-  
      $response = $db->query( $sql );
      $data = $response->fetchAll( PDO::FETCH_OBJ );
      $db = null;
-     
-    echo json_encode($data);
+
+     echo '{"data":' . json_encode($data) . '}';  
 
    } catch( PDOException $e ) {
      echo '{"error": {"msg": ' . $e->getMessage() . '}';
@@ -129,24 +127,38 @@ $app->get('/users/{user_id}', function( Request $request, Response $response){
 $app->put('/users/{user_id}', function( Request $request, Response $response){
     $id = $request->getAttribute('user_id');
     $name = $request->getParam("name");
-    $email = $request->getParam("email");
     $password = $request->getParam("password");
     
-    $sql = "UPDATE user SET name = '$name', email = '$email', password = '$password' WHERE ID = '$id'";
+    $sql = "UPDATE user SET name = :name, password = :password WHERE id = '$id'";
   
     try {
         $db = new db();
         $db = $db->connect();
         $request = $db->prepare( $sql );
-  
-        $request->bindParam(':id', $id);
-        $request->bindParam(':name', $name);
-        $request->bindParam(':email', $email);
-        $request->bindParam(':password', $password);   
-    
-        $request->execute();
         
-        echo '{"msg" : "Profile Successfully Updated"}';
+        if (empty($password) ){
+            $result = array(
+                "status" => false,
+                "msg" => "Please Fill All Fields",
+                "data" => [],
+            );
+            return $response->withStatus(200)->withJson($result);
+        } 
+
+        else{
+            $request->bindParam(':name', $name);
+            $request->bindParam(':password', $password);
+            $passwordEncrypt = password_hash($password, PASSWORD_DEFAULT);
+            $password = $passwordEncrypt;
+            $request->execute();
+
+            $result = array(
+                "status" => true,
+                "message" => "Successfully Updated"
+            );
+
+            return $response->withStatus(200)->withJson($result);
+        }
   
     } catch( PDOException $e ) {
         echo '{"error": {"msg": ' . $e->getMessage() . '}';
@@ -154,7 +166,7 @@ $app->put('/users/{user_id}', function( Request $request, Response $response){
   });
 
   // DELETE USERS
-    $app->delete('/users/{user_id}', function( Request $request, Response $response){
+  $app->delete('/users/{user_id}', function( Request $request, Response $response){
         $id = $request->getAttribute('user_id');
         
         $sql = "DELETE FROM user WHERE ID = '$id'";
