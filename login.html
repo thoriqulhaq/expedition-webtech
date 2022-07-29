@@ -41,7 +41,13 @@
   </div>
 
 <script>
-    
+        //if local storage is not null and userType = 1 then redirect to index.html
+        if (localStorage.getItem('UserInfo') != null && localStorage.getItem('userType') == 1) {
+            window.location.href = 'http://localhost/expedition/index.html';
+        } else if (localStorage.getItem('UserInfo') != null && localStorage.getItem('userType') == 2) {
+            window.location.href = 'http://localhost/expedition/admin/dashboard.html';
+        }
+        
         $("#login").click(function() {
             var email = $("#email").val();
             var password = $("#password").val();
@@ -57,35 +63,32 @@
                 url: 'http://localhost/expedition/api/index.php/login',
                 type: 'POST',
                 data: {
-                    id: id,
-                    userType: userType,
                     email: email,
                     password: password
                 },
                 success: function(data) {
-                    console.log(data);
+                    console.log(data.data);
                     if (data.status == true && data.data.userType == 1) {
                         if (localStorage.getItem('UserInfo') === null) {
-                        localStorage.setItem('UserInfo', JSON.stringify({'data' : [$('#email').val(), $('#password').val()]}));
+                        localStorage.setItem('UserInfo', JSON.stringify({"data" : {"id" : data.data.id, "userType" : data.data.userType}}));
                         } else {
                         // reset
-                        localStorage.removeItem('UserInfo');
-                        localStorage.setItem('UserInfo', JSON.stringify({'data' : [$('#email').val(), $('#password').val()]}));
+                        localStorage.clear('UserInfo');
+                        localStorage.setItem('UserInfo', JSON.stringify({"data" : {"id" : data.data.id, "userType" : data.data.userType}}));
                     }
                         window.location.href = 'http://localhost/expedition/index.html';
-
                         
                     } 
                     else if (data.status == true && data.data.userType == 2) {
                         if (localStorage.getItem('UserInfo') === null) {
-                        localStorage.setItem('UserInfo', JSON.stringify({'data' : [$('#id').val(), $('#userType').val()]}));
-                        } else {
+                        localStorage.setItem('UserInfo', JSON.stringify({"data" : {"id" : data.data.id, "userType" : data.data.userType}}));
+                        } 
+                         else {
                         // reset
                         localStorage.clear('UserInfo');
-                        localStorage.setItem('UserInfo', JSON.stringify({'data' : [$('#email').val(), $('#password').val()]}));
+                        localStorage.setItem('UserInfo', JSON.stringify({"data" : {"id" : data.data.id, "userType" : data.data.userType}}));
                     }
-                        window.location.href = 'http://localhost/expedition/admin/manage-user.html';
-
+                        window.location.href = 'http://localhost/expedition/admin/dashboard.html';
                         
                     } 
                     else {
@@ -96,6 +99,7 @@
         }
         });
    
+        
         
 </script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
