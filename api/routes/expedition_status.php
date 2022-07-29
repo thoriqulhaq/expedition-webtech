@@ -108,7 +108,7 @@ $app->put('/expedition_note/{status_id}', function (Request $request, Response $
         $db = null;
     
         $data = array(
-            "status" => "success put",
+            "status" => "success add",
             "rowcount" =>$count
         );
         echo json_encode($data);
