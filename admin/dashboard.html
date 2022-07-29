@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-yellow-100 w-screen">
+    <div class="w-60 h-full shadow-md bg-white absolute" id="sidenavSecExample">
+        <div class="pt-4 pb-2 px-6">
+          <a href="#!">
+            <div class="flex items-center">
+              <div class="shrink-0">
+                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp" class="rounded-full w-10" alt="Avatar">
+              </div>
+              <div class="grow ml-3">
+                <p class="text-sm font-semibold text-yellow-500">Samsul 'O Samsul</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <ul class="relative px-1">
+          <li class="relative">
+            <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="/expedition/admin/dashboard.html" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" class="w-3 h-3 mr-3" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"></path>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+          </li>
+        </ul>
+        <hr class="my-2">
+        <ul class="relative px-1">
+          <li class="relative">
+            <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="/expedition/admin/manage-user.html" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" class="w-3 h-3 mr-3" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M488.6 250.2L392 214V105.5c0-15-9.3-28.4-23.4-33.7l-100-37.5c-8.1-3.1-17.1-3.1-25.3 0l-100 37.5c-14.1 5.3-23.4 18.7-23.4 33.7V214l-96.6 36.2C9.3 255.5 0 268.9 0 283.9V394c0 13.6 7.7 26.1 19.9 32.2l100 50c10.1 5.1 22.1 5.1 32.2 0l103.9-52 103.9 52c10.1 5.1 22.1 5.1 32.2 0l100-50c12.2-6.1 19.9-18.6 19.9-32.2V283.9c0-15-9.3-28.4-23.4-33.7zM358 214.8l-85 31.9v-68.2l85-37v73.3zM154 104.1l102-38.2 102 38.2v.6l-102 41.4-102-41.4v-.6zm84 291.1l-85 42.5v-79.1l85-38.8v75.4zm0-112l-102 41.4-102-41.4v-.6l102-38.2 102 38.2v.6zm240 112l-85 42.5v-79.1l85-38.8v75.4zm0-112l-102 41.4-102-41.4v-.6l102-38.2 102 38.2v.6z"></path>
+              </svg>
+              <span>Manage User</span>
+            </a>
+          </li>
+          <li class="relative">
+            <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="/expedition/admin/manage-item.html" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" class="w-3 h-3 mr-3" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M488.6 250.2L392 214V105.5c0-15-9.3-28.4-23.4-33.7l-100-37.5c-8.1-3.1-17.1-3.1-25.3 0l-100 37.5c-14.1 5.3-23.4 18.7-23.4 33.7V214l-96.6 36.2C9.3 255.5 0 268.9 0 283.9V394c0 13.6 7.7 26.1 19.9 32.2l100 50c10.1 5.1 22.1 5.1 32.2 0l103.9-52 103.9 52c10.1 5.1 22.1 5.1 32.2 0l100-50c12.2-6.1 19.9-18.6 19.9-32.2V283.9c0-15-9.3-28.4-23.4-33.7zM358 214.8l-85 31.9v-68.2l85-37v73.3zM154 104.1l102-38.2 102 38.2v.6l-102 41.4-102-41.4v-.6zm84 291.1l-85 42.5v-79.1l85-38.8v75.4zm0-112l-102 41.4-102-41.4v-.6l102-38.2 102 38.2v.6zm240 112l-85 42.5v-79.1l85-38.8v75.4zm0-112l-102 41.4-102-41.4v-.6l102-38.2 102 38.2v.6z"></path>
+              </svg>
+              <span>Manage Item</span>
+            </a>
+          </li>
+          <li class="relative">
+            <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="/expedition/admin/manage-courier.html" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" class="w-3 h-3 mr-3" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M488.6 250.2L392 214V105.5c0-15-9.3-28.4-23.4-33.7l-100-37.5c-8.1-3.1-17.1-3.1-25.3 0l-100 37.5c-14.1 5.3-23.4 18.7-23.4 33.7V214l-96.6 36.2C9.3 255.5 0 268.9 0 283.9V394c0 13.6 7.7 26.1 19.9 32.2l100 50c10.1 5.1 22.1 5.1 32.2 0l103.9-52 103.9 52c10.1 5.1 22.1 5.1 32.2 0l100-50c12.2-6.1 19.9-18.6 19.9-32.2V283.9c0-15-9.3-28.4-23.4-33.7zM358 214.8l-85 31.9v-68.2l85-37v73.3zM154 104.1l102-38.2 102 38.2v.6l-102 41.4-102-41.4v-.6zm84 291.1l-85 42.5v-79.1l85-38.8v75.4zm0-112l-102 41.4-102-41.4v-.6l102-38.2 102 38.2v.6zm240 112l-85 42.5v-79.1l85-38.8v75.4zm0-112l-102 41.4-102-41.4v-.6l102-38.2 102 38.2v.6z"></path>
+              </svg>
+              <span>Manage Courier</span>
+            </a>
+          </li>
+        </ul>
+        <div class="text-center bottom-0 absolute w-full">
+          <hr class="m-0">
+          <p class="py-2 text-sm text-gray-700 font-semibold">BoxesAway</p>
+        </div>
+      </div>
+      <div class="p-12 h-screen ml-60">
+        <h1 class="mb-12 text-xl text-yellow-500 tracking-wider font-semibold">DASHBOARD</h1>
+        <div class="grid grid-rows-3 grid-flow-col gap-4 h-48">
+            <div class="row-span-3 bg-white p-12 rounded-2xl shadow-md flex justify-center">
+                <div class="mr-6 my-auto">
+                    <img width="60px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAABEUlEQVRIie3UMUoDYRDF8Z8psqUpLBRrBS+gx7ATD6E5iSjeQQ/gJUzEwmChnZZaKZiQ0ljsLkhQM5/5Agr74DX7DfOfgZ1Hoz+qAl30Marcx2H1thCtY4DJN76parKqmAH9DM+6eTcArX2QE3yVAO7lBA8TwMNIw6UgeJI46My+rWCjUQL0LVIUBd8lgEO1UfBZAvg8oXamCuWNRu64nRNMmUo/wReSXLXayoDoKc9miMvqW/ZNG2VRNLla2MYudrCFTvX2intlnl/gGu/zDraGYzyLZ/UTjrD6G2AHpxgnAKc9xgmWo9BNPM4BnPYDNiLg24zQ2oNpyFdZvRKZLlGhnvvKPzXXti/Yy7hEo3+iD9EHtgdqxQnwAAAAAElFTkSuQmCC">
+                </div>
+                <div class="my-auto">
+                    <p class="font-semibold text-gray-400">Total Users</p>
+                    <p id="total_user"></p>
+                </div>
+            </div>
+            <div class="row-span-3 bg-white p-12 rounded-2xl shadow-md flex justify-center">
+                <div class="mr-6 my-auto">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEFElEQVR4nO3bT4xdYxgG8F87tEqnYUhbQuJPqbChQipISCvFxEKpGKILi0YaVGyEVSUWTUSEjRAJGqFRfxakgtiINCFUIsqilRGtJoIGLaPVTi3ee+rO5Jw7d86593xTc5/kW9x7/rzP+3zfeb/vfPe59NDDtEZfwtgzcSUWYk9CHrXjEjyBXTiCUaxIRea4muKciyHciYvGHZuBs2viUSvm4z5sFb18JKftxuOYlYhjxzEHq/AODspP+jdsxM3qG4FdxSyRzGv4U37SI9iMWzC7ZJw+LMPzeBW34YQqxKviMjyNn+QnfRifYB1OrRDnYqzHcE6M2kdTRmZnDpmsbcfDOL1CnLOEcF+2iDO+/Sg65OoKcVuS+aJF8O+xAYsrxDkFq/Gh4qLZbvtWdNT5ZcmchrViCBeR2YOncHnZIDhJTI3vKi6aRW03nsSz+KXFeVvFbDR/IjJzxLP0Og4U3KwTz1yfGKbP4Y9JJr23IH4fljeO7Su49pDo0DXobybUjxexv+DCv/EWblWt6i7FM4qLZlH7vZHYjTi+jTj9uBvviaTz7rkfL2Ee3JtzwmF8hHtwcoWkF+Mx7Jhk0iN4Q4g+p0L8BbhfPC55cdYRxSL7YgcewhkVgi7Eg/isIGhRO4gtohDOqxA/wzl4FF+3iLmesQKsLxmseQX4T4uAeSMtWyssKBm7GQPiGW9VvMcIUGXx0IfrRI+tFBW9XXwjVoYviwVOFZyIwQaPFdqrE0dRVoCleFsM93axHZsabWfJuBlm4yYxhQ6qUCfKCvCI9pIf9l/SX5WMlaEP14qkV6pWnI+irACtitQBvIBX8Kl41qrgCpH07aotr3PRjReIB8QbWxVcKJIewqLKjFqgGwJ8XPK6M3GHSPzSztFpjW4IMDqJcwfE9DmEa8RGaa1IuSOzRLz5DSTkUL/iTRiUOHnKC1C1spP2N4mjKCvABx1lkRBlBdiAG8Tm5F9N34/i16qk6kSVIvh+o/WL3d5ljc/TRoAM+8SGxcYO3Kt2pJwFpgR6AqQmkBo9AVITSI2eAKkJpEZPgNQEUqMnQGoCqdETIDWB1OgJkJpAaozfD7hLuDY2mSb+3ZnCsZFhkfDd7NIZg8RUx88wV/h1iiwyI3hT/CDZSWNisy+h7nZAOFDGdG5dJqmUAnwuzBgTOsba8ew1GxNnTGEBtjdinVeCI9ozSg6LrfILJnHfbgrwg+icJaUyboFOWmU7LUDmIVyu3IicNNo1S6+Rb6johAAjwpi1SsL/HLTj0syIrhamJsoLcEjUptXGOT6nAuYKl+YWxXa5vcJBsrngeF4bFaNprfAxHxMYUN39nVXwrtpk6kA2k2wzcdK7dMn3P1WQzSTfya/g0+YFbSauwvX+R/8a66GHYwz/AhdIYkr5cwinAAAAAElFTkSuQmCC">
+                </div>
+                <div class="my-auto">
+                    <p class="font-semibold text-gray-400">Total Items</p>
+                    <p id="total_item"></p>
+                </div>
+            </div>
+        </div>
+      </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $.ajax({
+    type:"GET", 
+    url: 'http://localhost:8888/expedition/api/index.php/items', 
+    dataType: "json",
+    success: function(data) {
+        $("#total_item").text(data.total_records);
+    }
+    });
+    $.ajax({
+    type:"GET",
+    url: 'http://localhost:8888/expedition/api/index.php/users',
+    dataType: "json",
+    success: function(data) {
+        $("#total_user").text(data.total_records);
+    }
+    });
+</script>
+</html>
