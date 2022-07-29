@@ -20,7 +20,7 @@ $app->get('/expedition_note', function (Request $request, Response $response, $a
         echo json_encode($user);
     } catch (PDOException $e) {
         $data = array(
-            "status" => "fail"
+            "status" => "failed"
         );
         echo json_encode($data);
     }
@@ -41,7 +41,7 @@ $app->get('/expedition_note/{status_id}', function (Request $request, Response $
         echo json_encode($user);
     } catch (PDOException $e) {
         $data = array(
-            "status" => "fail"
+            "status" => "failed"
         );
         echo json_encode($data);
     }
@@ -77,7 +77,7 @@ $app->post('/expedition_notes', function (Request $request, Response $response, 
         echo json_encode($data);
     } catch (PDOException $e) {
         $data = array(
-            "status" => "fail"
+            "status" => "failed"
         );
         echo json_encode($e);
     }
@@ -114,7 +114,7 @@ $app->put('/expedition_note/{status_id}', function (Request $request, Response $
         echo json_encode($data);
     } catch (PDOException $e) {
         $data = array(
-            "status" => "fail"
+            "status" => "failed"
         );
         echo json_encode($e);
     }
@@ -141,7 +141,7 @@ $app->delete('/expedition_note/{status_id}', function (Request $request, Respons
         echo json_encode($data);
     } catch (PDOException $e) {
         $data = array(
-            "status" => "fail"
+            "status" => "failed"
         );
         echo json_encode($data);
     }
